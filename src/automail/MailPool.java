@@ -23,12 +23,23 @@ public class MailPool {
 			destination = mailItem.getDestFloor();
 			this.mailItem = mailItem;
 		}
+
+		public boolean getPriority() {
+			return mailItem.getPriority();
+		}
 	}
 	
 	public class ItemComparator implements Comparator<Item> {
 		@Override
 		public int compare(Item i1, Item i2) {
 			int order = 0;
+			if (Calculator.chargeThreshold != 0) {
+				if (i1.getPriority() && !i2.getPriority()) {
+					return 1;
+				} else if (!i1.getPriority() && i2.getPriority()) {
+					return -1;
+				}
+			}
 			if (i1.destination < i2.destination) {
 				order = 1;
 			} else if (i1.destination > i2.destination) {
