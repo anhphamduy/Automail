@@ -29,6 +29,11 @@ public class MailItem {
     protected final int weight;
     private double serviceFees = 0;
 
+    /**
+     * Whether or not the item is delivered
+     */
+    private boolean isDelivered = false;
+
     private ArrayList<Activity> activities = new ArrayList<>();
 
     /**
@@ -47,7 +52,7 @@ public class MailItem {
 
     @Override
     public String toString() {
-        if (!Calculator.chargeDisplay || Calculator.chargeThreshold == 0) {
+        if (!Calculator.chargeDisplay || Calculator.chargeThreshold == 0 || !isDelivered) {
             return String.format("Mail Item:: ID: %6s | Arrival: %4d | Destination: %2d | Weight: %4d", id, arrival_time, destination_floor, weight);
         }
 
@@ -117,5 +122,9 @@ public class MailItem {
 
     public void setServiceFees(double serviceFees) {
         this.serviceFees = serviceFees;
+    }
+
+    public void setDelivered(boolean delivered) {
+        isDelivered = delivered;
     }
 }

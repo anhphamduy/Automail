@@ -123,11 +123,6 @@ public class Simulation {
             }
         }
 
-        CHARGE_DISPLAY = true;
-        ControllerGUI.setActivityUnitPrice(0.224);
-        ControllerGUI.setChargeDisplay(true);
-        ControllerGUI.setChargeThreshold(5);
-        ControllerGUI.setMarkupPercentage(0.059);
 
         // Floors
         Building.FLOORS = Integer.parseInt(automailProperties.getProperty("Floors"));
@@ -148,12 +143,15 @@ public class Simulation {
         assert (NUM_ROBOTS > 0);
         // Charge Threshold
         CHARGE_THRESHOLD = Double.parseDouble(automailProperties.getProperty("ChargeThreshold"));
-        CHARGE_THRESHOLD = 5;
-        ControllerGUI.setChargeThreshold(5);
         System.out.println("#Charge Threshold: " + CHARGE_THRESHOLD);
         // Charge Display
         CHARGE_DISPLAY = Boolean.parseBoolean(automailProperties.getProperty("ChargeDisplay"));
         System.out.println("#Charge Display: " + CHARGE_DISPLAY);
+
+        ControllerGUI.setActivityUnitPrice(0.224);
+        ControllerGUI.setChargeDisplay(CHARGE_DISPLAY);
+        ControllerGUI.setChargeThreshold(CHARGE_THRESHOLD);
+        ControllerGUI.setMarkupPercentage(0.059);
 
         return automailProperties;
     }
@@ -165,6 +163,7 @@ public class Simulation {
          */
         public void deliver(MailItem deliveryItem) {
             if (!MAIL_DELIVERED.contains(deliveryItem)) {
+                deliveryItem.setDelivered(true);
                 MAIL_DELIVERED.add(deliveryItem);
                 System.out.printf("T: %3d > Delivered(%4d) [%s]%n", Clock.Time(), MAIL_DELIVERED.size(), deliveryItem.toString());
                 // Calculate delivery score
