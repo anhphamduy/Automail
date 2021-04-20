@@ -99,15 +99,18 @@ public class Robot {
                 if (current_floor == destination_floor) { // If already here drop off either way
                     WifiModem modem = WifiModem.getInstance(destination_floor);
 
-                    // if look up results in failure then keep trying again
-                    double serviceFees = modem.forwardCallToAPI_LookupPrice(destination_floor);
-                    while (serviceFees < 0) {
-                        serviceFees = modem.forwardCallToAPI_LookupPrice(destination_floor);
-                        deliveryItem.addActivity(new LookUpActivity(false));
-                    }
-                    deliveryItem.addActivity(new LookUpActivity(true));
-                    deliveryItem.setServiceFees(serviceFees);
+                    if (Calculator.chargeThreshold > 0) {
+                        // get service fees if allowed
+                        double serviceFees = modem.forwardCallToAPI_LookupPrice(destination_floor);
 
+                        // if look up results in failure then keep trying again
+                        while (serviceFees < 0) {
+                            serviceFees = modem.forwardCallToAPI_LookupPrice(destination_floor);
+                            deliveryItem.addActivity(new LookUpActivity(false));
+                        }
+                        deliveryItem.addActivity(new LookUpActivity(true));
+                        deliveryItem.setServiceFees(serviceFees);
+                    }
 
                     /** Delivery complete, report this to the simulator! */
                     delivery.deliver(deliveryItem);

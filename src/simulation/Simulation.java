@@ -108,8 +108,8 @@ public class Simulation {
         automailProperties.setProperty("Robots", "Standard");
         automailProperties.setProperty("Floors", "10");
         automailProperties.setProperty("Mail_to_Create", "80");
-        automailProperties.setProperty("ChargeThreshold", "3");
-        automailProperties.setProperty("ChargeDisplay", "true");
+        automailProperties.setProperty("ChargeThreshold", "0");
+        automailProperties.setProperty("ChargeDisplay", "false");
 
 
         // Read properties
